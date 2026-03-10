@@ -145,4 +145,15 @@ public class ModelManager implements Model {
                 && filteredPersons.equals(otherModelManager.filteredPersons);
     }
 
+    // Assumption: valid inputs
+    @Override
+    public Person findPersonByName(String nameToBeFind) {
+        for (Person p : this.filteredPersons) {
+            if (p.getName().toString().equals(nameToBeFind)) {
+                return p;
+            }
+        }        
+        return null;
+    }
+
 }
