@@ -37,21 +37,26 @@ public class AddEventCommandTest {
 
     @Test
     public void execute_eventAcceptedByModel_addSuccessful() throws Exception {
-        Event event = new Event(VALID_DESCRIPTION, VALID_START, VALID_END, VALID_NAME);
-        AddEventCommand addEventCommand = new AddEventCommand(event);
+        Event existingEvent = new Event("Prepare slides", "20-02-26 1000", "20-02-26 1200", VALID_NAME);
+        Event eventToAdd = new Event(VALID_DESCRIPTION, VALID_START, VALID_END, VALID_NAME);
+        AddEventCommand addEventCommand = new AddEventCommand(eventToAdd);
 
         Person personToEdit = new PersonBuilder().withName(VALID_NAME).build();
+        personToEdit.addEvent(existingEvent);
         ModelStubWithPerson modelStub = new ModelStubWithPerson(personToEdit);
 
         CommandResult commandResult = addEventCommand.execute(modelStub);
 
         Person expectedEditedPerson = new PersonBuilder(personToEdit).build();
-        expectedEditedPerson.addEvent(event);
+        expectedEditedPerson.addEvent(existingEvent);
+        expectedEditedPerson.addEvent(eventToAdd);
 
-        assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, event),
+        assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, eventToAdd),
                 commandResult.getFeedbackToUser());
         assertEquals(personToEdit, modelStub.targetPerson);
-        assertTrue(modelStub.editedPerson.getEvents().contains(event));
+        assertTrue(modelStub.editedPerson.getEvents().contains(existingEvent));
+        assertTrue(modelStub.editedPerson.getEvents().contains(eventToAdd));
+        assertEquals(2, modelStub.editedPerson.getEvents().size());
     }
 
     @Test

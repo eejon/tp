@@ -11,7 +11,6 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates the corresponding event subcommand.
  */
 public class EventCommandParser implements Parser<Command> {
-
     @Override
     public Command parse(String args) throws ParseException {
         String trimmedArgs = args.trim();

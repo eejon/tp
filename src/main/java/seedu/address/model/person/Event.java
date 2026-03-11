@@ -63,9 +63,4 @@ public class Event {
 
         return false;
     }
-
-    @Override
-    public int hashCode() {
-        return this.description.hashCode() + this.startTime.hashCode() + this.endTime.hashCode();
-    }
 }
