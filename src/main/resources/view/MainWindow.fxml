@@ -47,14 +47,14 @@
           </padding>
         </StackPane>
 
-        <HBox spacing="10" VBox.vgrow="ALWAYS">
-          <VBox fx:id="personList" styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS">
+        <HBox spacing="3" VBox.vgrow="ALWAYS">
+          <VBox fx:id="personList" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
             <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
-          <VBox fx:id="eventList" styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS">
+          <VBox fx:id="eventList" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
