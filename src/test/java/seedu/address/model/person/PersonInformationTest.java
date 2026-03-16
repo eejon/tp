@@ -58,37 +58,89 @@ public class PersonInformationTest {
 
     @Test
     public void equals_sameValues_returnsTrue() {
-        PersonInformation first = new PersonInformation(
-                new Name("Delwyn"),
-                new Phone("91234567"),
-                new Email("delwyn@example.com"),
-                new Address("1, Clementi Ave 3"),
-                Set.of(new Tag("CS2103")));
-        PersonInformation second = new PersonInformation(
-                new Name("Delwyn"),
-                new Phone("91234567"),
-                new Email("delwyn@example.com"),
-                new Address("1, Clementi Ave 3"),
-                Set.of(new Tag("CS2103")));
+        PersonInformation first = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+        PersonInformation second = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
 
         assertTrue(first.equals(second));
     }
 
     @Test
     public void equals_differentPhone_returnsFalse() {
-        PersonInformation first = new PersonInformation(
-                new Name("Delwyn"),
-                new Phone("91234567"),
-                new Email("delwyn@example.com"),
-                new Address("1, Clementi Ave 3"),
-                Set.of(new Tag("CS2103")));
-        PersonInformation second = new PersonInformation(
-                new Name("Delwyn"),
-                new Phone("97654321"),
-                new Email("delwyn@example.com"),
-                new Address("1, Clementi Ave 3"),
-                Set.of(new Tag("CS2103")));
+        PersonInformation first = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+        PersonInformation second = buildInfo("Delwyn", "97654321", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
 
         assertFalse(first.equals(second));
+    }
+
+    @Test
+    public void equals_differentName_returnsFalse() {
+        PersonInformation first = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+        PersonInformation second = buildInfo("Del", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+
+        assertFalse(first.equals(second));
+    }
+
+    @Test
+    public void equals_differentEmail_returnsFalse() {
+        PersonInformation first = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+        PersonInformation second = buildInfo("Delwyn", "91234567", "other@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+
+        assertFalse(first.equals(second));
+    }
+
+    @Test
+    public void equals_differentAddress_returnsFalse() {
+        PersonInformation first = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+        PersonInformation second = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "2, Clementi Ave 3", Set.of("CS2103"));
+
+        assertFalse(first.equals(second));
+    }
+
+    @Test
+    public void equals_differentTags_returnsFalse() {
+        PersonInformation first = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+        PersonInformation second = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103", "EG1311"));
+
+        assertFalse(first.equals(second));
+    }
+
+    @Test
+    public void equals_differentTypeOrNull_returnsFalse() {
+        PersonInformation info = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+
+        assertFalse(info.equals(1));
+        assertFalse(info.equals(null));
+    }
+
+    @Test
+    public void equals_sameObject_returnsTrue() {
+        PersonInformation info = buildInfo("Delwyn", "91234567", "delwyn@example.com",
+                "1, Clementi Ave 3", Set.of("CS2103"));
+
+        assertTrue(info.equals(info));
+    }
+
+    private static PersonInformation buildInfo(String name, String phone, String email, String address,
+                                               Set<String> tags) {
+        Set<Tag> tagSet = tags.stream().map(Tag::new).collect(java.util.stream.Collectors.toSet());
+        return new PersonInformation(
+                new Name(name),
+                phone == null ? null : new Phone(phone),
+                email == null ? null : new Email(email),
+                address == null ? null : new Address(address),
+                tagSet);
     }
 }

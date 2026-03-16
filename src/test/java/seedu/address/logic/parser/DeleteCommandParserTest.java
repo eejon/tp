@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -39,5 +40,11 @@ public class DeleteCommandParserTest {
         assertParseFailure(parser, " A " + PREFIX_NAME + "John Doe",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 DeleteCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidPhone_throwsParseException() {
+        assertParseFailure(parser, " " + PREFIX_NAME + "John Doe " + PREFIX_PHONE + "abc",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
     }
 }
