@@ -53,14 +53,11 @@ NAB is a **desktop app for NUS students to manage contacts across multiple modul
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
-
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
-
 * Items with `…`​ after them can be used multiple times including zero times.<br>
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -84,7 +81,7 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -120,13 +117,18 @@ Examples:
 
 ### Locating persons by name: `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds persons who match the given contact information.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
+<box type="tip" seamless>
+
+**Tip:** If there are multiple contacts with the same `NAME`, utilize the other optional parameters to narrow down the
+search to a specific contact.
+</box>
+
+* The search is case-insensitive. e.g. `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
@@ -135,6 +137,19 @@ Examples:
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
+
+### Filtering persons by context : `filter`
+
+Finds persons with the given tag(s)
+
+Format: `filter t/TAG[, TAG]...`
+
+* The search is case-insensitive. e.g. `friend` will match `Friend` tag.
+* Only full words will be matched e.g. `frie` will not match `friend` tag.
+
+Examples:
+* `filter t/friends` finds all contacts that are tagged `friends`
+* `filter t/cs2103, cs2105, cs2109s` finds all contacts that have any of these tags.
 
 ### Deleting a person : `delete`
 
@@ -155,8 +170,6 @@ deletion of the correct contact.
 Examples:
 * `delete n/Alex Yeoh` deletes the contact with a matching name.
 * Suppose there are multiple `Alex Yeoh`, a enriched search would be `delete n/Alex Yeoh t/cs2103 t/cs2105`
-
-### Adding an Event : `event add`
 
 ### Clearing all entries : `clear`
 
@@ -209,10 +222,11 @@ _Details coming soon ..._
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add**    | `add n/NAME p/PHONE_NUMBER [e/EMAIL] a[/ADDRESS] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Delete** | `delete n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g., `delete n/Alex Yeoh t/cs2103 t/cs2105`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find**   | `find n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g., `find n/James Jake p/67676969`
+**Filter** | `filter t/TAG[, TAG]…​`<br> e.g., `filter t/friends`
 **List**   | `list`
 **Help**   | `help`
