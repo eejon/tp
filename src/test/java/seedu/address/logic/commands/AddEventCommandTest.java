@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -50,7 +51,6 @@ public class AddEventCommandTest {
         CommandResult commandResult = addEventCommand.execute(modelStub);
 
         Person expectedEditedPerson = new PersonBuilder(personToEdit).build();
-        expectedEditedPerson.addEvent(existingEvent);
         expectedEditedPerson.addEvent(eventToAdd);
 
         assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, VALID_NAME, eventToAdd),
@@ -59,6 +59,20 @@ public class AddEventCommandTest {
         assertTrue(modelStub.editedPerson.getEvents().contains(existingEvent));
         assertTrue(modelStub.editedPerson.getEvents().contains(eventToAdd));
         assertEquals(2, modelStub.editedPerson.getEvents().size());
+    }
+
+    @Test
+    public void execute_duplicateEvent_throwsCommandException() {
+        Event eventToAdd = new Event(VALID_DESCRIPTION, VALID_START, VALID_END);
+        AddEventCommand addEventCommand = new AddEventCommand(VALID_NAME, eventToAdd);
+
+        Person personToEdit = new PersonBuilder().withName(VALID_NAME).build();
+        personToEdit.addEvent(eventToAdd);
+        ModelStubWithPerson modelStub = new ModelStubWithPerson(personToEdit);
+
+        assertThrows(CommandException.class,
+                String.format(AddEventCommand.MESSAGE_DUPLICATE_EVENT, eventToAdd), () ->
+                addEventCommand.execute(modelStub));
     }
 
     @Test
