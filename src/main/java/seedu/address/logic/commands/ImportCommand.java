@@ -244,7 +244,7 @@ public class ImportCommand extends Command {
      * @param tagString The raw string containing tags (e.g. "friends; colleagues").
      * @return A {@code Set} of {@code Tag} objects. Returns an empty set if input is empty.
      */
-    private Set<Tag> parseTags(String tagString) {
+    Set<Tag> parseTags(String tagString) {
         if (tagString == null || tagString.trim().isEmpty()) {
             return new HashSet<>();
         }
@@ -263,7 +263,7 @@ public class ImportCommand extends Command {
      * @param eventString The raw string containing events.
      * @return A {@code List} of {@code Event} objects. Returns an empty list if the input is empty or malformed.
      */
-    private List<Event> parseEvents(String eventString) {
+    List<Event> parseEvents(String eventString) {
         List<Event> events = new ArrayList<>();
 
         if (eventString == null || eventString.trim().isEmpty()) {
