@@ -244,4 +244,16 @@ public class ImportCommandTest {
         assertEquals(1, result.size());
         assertEquals("ValidEvent", result.get(0).getDescription());
     }
+
+    @Test
+    public void equals() {
+        ImportCommand importFirst = new ImportCommand("overwrite", "file1");
+        ImportCommand importSecond = new ImportCommand("overwrite", "file1");
+
+        assertTrue(importFirst.equals(importFirst));
+
+        assertTrue(importFirst.equals(importSecond));
+
+        assertTrue(!importFirst.equals(null));
+    }
 }
