@@ -8,20 +8,20 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div class="container" id="top-of-guide">
-        <h1><b><i>NAB User Guide</i></b></h1>
-        <p>NAB is a <b>desktop app for NUS students to manage contacts across multiple modules, project groups, and CCAs, 
-            optimized for use via a Command Line Interface (CLI)</b> while still having the benefits of a Graphical User Interface (GUI). 
-            If you can type fast, NAB can help you organize and retrieve context-specific contacts and track commitments faster than traditional GUI apps.
-        </p>
-        <h4>What is covered in this guide?</h4>
-        <ol class="table-of-content">
-            <li><a href="#feature-list">Features</a></li>
-            <li><a href="#edit-data-file">Editing the data file</a></li>
-            <li><a href="#FAQ">FAQ</a></li>
-            <li><a href="#known-issue">Known Issues</a></li>
-            <li><a href="#command-summary">Command Summary</a></li>
-        </ol>
+<div class="container" id="top-of-guide">
+    <h1><b><i>NAB User Guide</i></b></h1>
+    <p>NAB is a <b>desktop app for NUS students to manage contacts across multiple modules, project groups, and CCAs,
+        optimized for use via a Command Line Interface (CLI)</b> while still having the benefits of a Graphical User Interface (GUI).
+        If you can type fast, NAB can help you organize and retrieve context-specific contacts and track commitments faster than traditional GUI apps.
+    </p>
+    <h4>What is covered in this guide?</h4>
+    <ol class="table-of-content">
+        <li><a href="#feature-list">Features</a></li>
+        <li><a href="#edit-data-file">Editing the data file</a></li>
+        <li><a href="#FAQ">FAQ</a></li>
+        <li><a href="#known-issue">Known Issues</a></li>
+        <li><a href="#command-summary">Command Summary</a></li>
+    </ol>
     <div class="info-callout">
         <div class="info-icon">i</div>
         <div class="info-content">
@@ -30,20 +30,20 @@
                 <li>Words in <code>UPPER_CASE</code> are the parameters to be supplied by the user.<br>
                     e.g. in <code>add n/NAME</code>, <code>NAME</code> is a parameter which can be used as <code>add n/John Doe</code>.
                 </li>
-                
+
                 <li>Items in square brackets are optional.<br>
                     e.g <code>n/NAME [t/TAG]</code> can be used as <code>n/John Doe t/friend</code> or as <code>n/John Doe</code>.
                 </li>
-                
+
                 <li>Items with <code>...</code> after them can be used multiple times including zero times.<br>
                     e.g. <code>[t/TAG]...</code> can be used as (i.e. 0 times), <code>t/friend</code>, <code>t/friend t/family</code> etc.
                 </li>
-                
+
                 <li>Parameters can be in any order.<br>
                     e.g. if the command specifies <code>n/NAME p/PHONE_NUMBER</code>, <code>p/PHONE_NUMBER n/NAME</code> is also acceptable.
                 </li>
-                
-                <li>Extraneous parameters for commands that do not take in parameters 
+
+                <li>Extraneous parameters for commands that do not take in parameters
                     (such as <code>help</code>, <code>list</code>, <code>exit</code> and <code>clear</code>) will be ignored.<br>
                     e.g. if the command specifies <code>help 123</code>, it will be interpreted as <code>help</code>.
                 </li>
@@ -87,7 +87,7 @@
                 > add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01<br>
                 > add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal<br>
                 > add n/Kim Chaewon p/67676969 pfp/C:\Users\User\Desktop\Photos\Le_sserafim.jpg<br>
-                > add n/Hibiscus p/12345678 t/enemy pfp//home/Desktop/Pictures/hibiscus_flower.png  
+                > add n/Hibiscus p/12345678 t/enemy pfp//home/Desktop/Pictures/hibiscus_flower.png
             </div>
         </div>
 
@@ -96,7 +96,7 @@
             <p>Shows a list of all persons in the address book.</p>
             <p>Format: <code>list</code></p>
             <div class="command-box">
-                > list 
+                > list
             </div>
         </div>
 
@@ -105,8 +105,8 @@
             <p>Edits an existing person in the address book.</p>
             <p>Format: <code>edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]... [pfp/PROFILE_PICTURE]</code></p>
             <ul>
-                <li>Edits the person at the specified <code>INDEX</code>. 
-                    The index refers to the index number shown in the displayed person list. 
+                <li>Edits the person at the specified <code>INDEX</code>.
+                    The index refers to the index number shown in the displayed person list.
                     The index <b>must be a positive integer 1, 2, 3, ...</b></li>
                 <li>At least one of the optional fields must be provided.</li>
                 <li>Existing values will be updated to the input values.</li>
@@ -126,7 +126,7 @@
             <p>Finds persons who match the given contact information..</p>
             <p>Format: <code>find n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code></p>
             <ul>
-                <li> If there are multiple contacts with the same <code>NAME</code>, 
+                <li> If there are multiple contacts with the same <code>NAME</code>,
                     utilize the other optional parameters to narrow down the search to a specific contact.</b></li>
                 <li>The search is case-insensitive. e.g. <code>hans</code> will match <code>Hans</code></li>
                 <li>Only full words will be matched e.g. <code>Han</code> will not match <code>Hans</code></li>
@@ -161,7 +161,7 @@
             <p>Deletes the specified person from the address book.</p>
             <p>Format: <code>delete n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code></p>
             <ul>
-                <li>If there are multiple contacts with the same <code>NAME</code>, 
+                <li>If there are multiple contacts with the same <code>NAME</code>,
                     utilize the other optional parameters to narrow down the deletion of the correct contact.</li>
                 <li> The <code>NAME</code> is case-insensitive. e.g. <code>aLeX YeOH</code> will match <code>Alex Yeoh</code></li>
                 <li> Only full words will be matched e.g. <code>Alex Yeo</code> will not match <code>Alex Yeoh</code></li>
@@ -234,7 +234,7 @@
             <p>Clears all entries from the address book</p>
             <p>Format: <code>clear</code></p>
             <div class="command-box">
-                > clear 
+                > clear
             </div>
         </div>
 
@@ -247,18 +247,18 @@
             </div>
         </div>
     </div>
-    
+
     <div id="edit-data-file">
-    <h1>Editing the data file: </h1>
-        <p>AddressBook data are saved automatically as a JSON file <code>[JAR file location]/data/addressbook.json</code>. 
+        <h1>Editing the data file: </h1>
+        <p>AddressBook data are saved automatically as a JSON file <code>[JAR file location]/data/addressbook.json</code>.
             Advanced users are welcome to update data directly by editing that data file.</p>
         <div class="caution-callout">
             <div class="caution-icon">i</div>
             <div class="caution-content">
                 <h4><b>Caution</b></h4>
-                <p> If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. 
+                <p> If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.
                     Hence, it is recommended to take a backup of the file before editing it.
-                    Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). 
+                    Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).
                     Therefore, edit the data file only if you are confident that you can update it correctly.</p>
             </div>
         </div>
@@ -266,20 +266,20 @@
     <div id="FAQ">
         <h1>FAQ</h1>
         <p><b>Q</b>: How do I transfer my data to another Computer?</p>
-        <p><b>A</b>: Install the app in the other computer and overwrite the empty data file it creates 
+        <p><b>A</b>: Install the app in the other computer and overwrite the empty data file it creates
             with the file that contains the data of your previous AddressBook home folder.</p>
     </div>
     <div id="known-issue">
         <h1>Known Issues</h1>
         <ol>
             <li><p>
-                    <b>When using multiple screens</b>, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. 
-                    The remedy is to delete the <code>preferences.json</code> file created by the application before running the application again.
-                </p>
+                <b>When using multiple screens</b>, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen.
+                The remedy is to delete the <code>preferences.json</code> file created by the application before running the application again.
+            </p>
             </li>
             <li>
                 <p>
-                    <b>If you minimize the Help Window</b> and then run the <code>help</code> command (or use the <code>Help menu</code>, or the keyboard shortcut <code>F1</code>) again, 
+                    <b>If you minimize the Help Window</b> and then run the <code>help</code> command (or use the <code>Help menu</code>, or the keyboard shortcut <code>F1</code>) again,
                     the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
                 </p>
             </li>
@@ -289,107 +289,107 @@
         <h1>Command Summary</h1>
         <table class="command-table">
             <thead>
-                <tr>
-                    <th>Action</th>
-                    <th>Format, Examples</th>
-                </tr>
+            <tr>
+                <th>Action</th>
+                <th>Format, Examples</th>
+            </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Add</td>
-                    <td>
-                        <code>add n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [t/TAG]... [pfp/PROFILE_PICTURE]</code><br>
-                        <span class="example-text">e.g., <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague pfp//home/kali/Pictures/hello_world.jpg</code></span>
-                    </td>
-                </tr>
+            <tr>
+                <td>Add</td>
+                <td>
+                    <code>add n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [t/TAG]... [pfp/PROFILE_PICTURE]</code><br>
+                    <span class="example-text">e.g., <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague pfp//home/kali/Pictures/hello_world.jpg</code></span>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>Delete</td>
-                    <td>
-                        <code>delete n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
-                        <span class="example-text">e.g., <code>delete n/Alex Yeoh t/cs2103 t/cs2105</code></span>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Edit</td>
-                    <td>
-                        <code>edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]... [pfp/PROFILE_PICTURE]</code><br>
-                        <span class="example-text">e.g., <code>edit 2 n/James Lee e/jameslee@example.com</code></span>
-                    </td>
-                </tr>
+            <tr>
+                <td>Delete</td>
+                <td>
+                    <code>delete n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
+                    <span class="example-text">e.g., <code>delete n/Alex Yeoh t/cs2103 t/cs2105</code></span>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>Find</td>
-                    <td>
-                        <code>find n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
-                        <span class="example-text">e.g., <code>find n/James Jake p/67676969</code></span>
-                    </td>
-                </tr>
+            <tr>
+                <td>Edit</td>
+                <td>
+                    <code>edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]... [pfp/PROFILE_PICTURE]</code><br>
+                    <span class="example-text">e.g., <code>edit 2 n/James Lee e/jameslee@example.com</code></span>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>Filter</td>
-                    <td>
-                        <code>filter t/TAG[, TAG]...</code><br>
-                        <span class="example-text">e.g., <code>filter t/friends</code></span>
-                    </td>
-                </tr>
+            <tr>
+                <td>Find</td>
+                <td>
+                    <code>find n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
+                    <span class="example-text">e.g., <code>find n/James Jake p/67676969</code></span>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>Event Add</td>
-                    <td>
-                        <code>event add d/DESCRIPTION start/START_DATE end/END_DATE to/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
-                        <span class="example-text">e.g., <code>event add d/Complete Quiz 4 start/12-03-2026 1100 end/12-04-2026 2359 to/Bernice Yu</code></span>
-                    </td>
-                </tr>
+            <tr>
+                <td>Filter</td>
+                <td>
+                    <code>filter t/TAG[, TAG]...</code><br>
+                    <span class="example-text">e.g., <code>filter t/friends</code></span>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>Event Delete</td>
-                    <td>
-                        <code>event delete n/NAME start/START_TIME end/END_TIME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
-                        <span class="example-text">e.g., <code>event delete n/Bernice Yu start/12-03-2026 1100 end/12-04-2026 2359</code></span>
-                    </td>
-                </tr>
+            <tr>
+                <td>Event Add</td>
+                <td>
+                    <code>event add d/DESCRIPTION start/START_DATE end/END_DATE to/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
+                    <span class="example-text">e.g., <code>event add d/Complete Quiz 4 start/12-03-2026 1100 end/12-04-2026 2359 to/Bernice Yu</code></span>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>Event View</td>
-                    <td>
-                        <code>event view n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
-                        <span class="example-text">e.g., <code>event view n/Bernice Yu</code></span>
-                    </td>
-                </tr>
+            <tr>
+                <td>Event Delete</td>
+                <td>
+                    <code>event delete n/NAME start/START_TIME end/END_TIME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
+                    <span class="example-text">e.g., <code>event delete n/Bernice Yu start/12-03-2026 1100 end/12-04-2026 2359</code></span>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>List</td>
-                    <td>
-                        <code>list</code>
-                    </td>
-                </tr>
+            <tr>
+                <td>Event View</td>
+                <td>
+                    <code>event view n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...</code><br>
+                    <span class="example-text">e.g., <code>event view n/Bernice Yu</code></span>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>Clear</td>
-                    <td>
-                        <code>clear</code>
-                    </td>
-                </tr>
+            <tr>
+                <td>List</td>
+                <td>
+                    <code>list</code>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>Help</td>
-                    <td>
-                        <code>help</code>
-                    </td>
-                </tr>
+            <tr>
+                <td>Clear</td>
+                <td>
+                    <code>clear</code>
+                </td>
+            </tr>
 
-                <tr>
-                    <td>Exit</td>
-                    <td>
-                        <code>exit</code>
-                    </td>
-                </tr>
+            <tr>
+                <td>Help</td>
+                <td>
+                    <code>help</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Exit</td>
+                <td>
+                    <code>exit</code>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
-    </div>
-    <a href="#top-of-guide" class="floating-top-btn">↑ Back to Top</a>
+</div>
+<a href="#top-of-guide" class="floating-top-btn">↑ Back to Top</a>
 </body>
 </html>
