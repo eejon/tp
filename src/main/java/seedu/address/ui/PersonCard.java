@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import seedu.address.model.person.Person;
 
 /**
@@ -56,6 +57,8 @@ public class PersonCard extends UiPart<Region> {
     private Circle photo;
     @FXML
     private Label altText;
+    @FXML
+    private Rectangle personCardSlidingAccent;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -65,6 +68,9 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
+        personCardSlidingAccent.visibleProperty().bind(
+                this.getRoot().focusedProperty().or(this.getRoot().hoverProperty())
+        );
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().map(addr -> addr.value).orElse(""));
         email.setText(person.getEmail().map(email -> email.value).orElse(""));
@@ -159,5 +165,13 @@ public class PersonCard extends UiPart<Region> {
 
         photo.setStroke(javafx.scene.paint.Color.valueOf("#EF7C00")); // NUS Gold color
         photo.setStrokeWidth(2.0); // Thickness of Border
+    }
+    /**
+     * Retrieves the accent bar associated with the person card UI component.
+     *
+     * @return A {@code Rectangle} representing the accent bar for visual styling.
+     */
+    public Rectangle getAccentBar() {
+        return personCardSlidingAccent;
     }
 }
