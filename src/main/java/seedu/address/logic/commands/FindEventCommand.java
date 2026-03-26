@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.util.EventUtil;
+import seedu.address.commons.util.CommandUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -48,7 +48,7 @@ public class FindEventCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        Person matchedPerson = EventUtil.targetPerson(model, targetInfo);
+        Person matchedPerson = CommandUtil.targetPerson(model, targetInfo);
 
         model.showEventsForPerson(matchedPerson);
         logger.info("FindEvent: matched " + matchedPerson.getName()

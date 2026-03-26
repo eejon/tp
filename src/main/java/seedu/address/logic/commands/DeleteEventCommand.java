@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.util.EventUtil;
+import seedu.address.commons.util.CommandUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.event.Event;
@@ -47,7 +47,7 @@ public class DeleteEventCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        Person personToEdit = EventUtil.targetPerson(model, targetInfo);
+        Person personToEdit = CommandUtil.targetPerson(model, targetInfo);
 
         // Checking if the event is in the Person's List<Event>
         if (!personToEdit.hasEvent(toDelete)) {

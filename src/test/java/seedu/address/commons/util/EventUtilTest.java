@@ -26,7 +26,7 @@ public class EventUtilTest {
         model.addPerson(ALICE);
 
         PersonInformation info = new PersonInformation(new Name("Alice Pauline"), null, null, null, Set.of());
-        Person matched = EventUtil.targetPerson(model, info);
+        Person matched = CommandUtil.targetPerson(model, info);
 
         assertEquals(ALICE, matched);
     }
@@ -39,7 +39,7 @@ public class EventUtilTest {
         PersonInformation info = new PersonInformation(new Name("Nonexistent"), null, null, null, Set.of());
 
         assertThrows(CommandException.class, Messages.MESSAGE_NO_MATCH, () ->
-                EventUtil.targetPerson(model, info));
+                CommandUtil.targetPerson(model, info));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class EventUtilTest {
         PersonInformation info = new PersonInformation(new Name("Alex Tan"), null, null, null, Set.of());
 
         assertThrows(CommandException.class, Messages.MESSAGE_MULTIPLE_MATCH, () ->
-                EventUtil.targetPerson(model, info));
+                CommandUtil.targetPerson(model, info));
 
         assertEquals(2, model.getFilteredPersonList().size());
         assertTrue(model.getFilteredPersonList().contains(first));

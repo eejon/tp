@@ -12,8 +12,8 @@ import seedu.address.model.person.PersonInformation;
 /**
  * Utilities for event-related command operations.
  */
-public final class EventUtil {
-    private EventUtil() {
+public final class CommandUtil {
+    private CommandUtil() {
         // utility class
     }
 
