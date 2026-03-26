@@ -112,8 +112,8 @@ public class AddEventCommandTest {
         ModelStubWithPersonNoEvent modelStub = new ModelStubWithPersonNoEvent(personWithEvent);
 
         assertThrows(CommandException.class,
-                String.format(AddEventCommand.MESSAGE_DUPLICATE_EVENT, eventToAdd),
-                () -> addEventCommand.execute(modelStub));
+                String.format(AddEventCommand.MESSAGE_DUPLICATE_EVENT, eventToAdd), () ->
+                    addEventCommand.execute(modelStub));
     }
 
     @Test
@@ -125,8 +125,8 @@ public class AddEventCommandTest {
         ModelStubWithOverlappingEvent modelStub = new ModelStubWithOverlappingEvent(person);
 
         assertThrows(CommandException.class,
-                AddEventCommand.MESSAGE_CLASHING_EVENT,
-                () -> addEventCommand.execute(modelStub));
+            AddEventCommand.MESSAGE_CLASHING_EVENT, () ->
+                addEventCommand.execute(modelStub));
     }
 
     @Test

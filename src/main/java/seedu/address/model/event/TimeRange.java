@@ -77,7 +77,7 @@ public class TimeRange {
     }
 
     /**
-     * Returns true if both timeRanges of an event are overlapping 
+     * Returns true if both timeRanges of an event are overlapping
      * @param other the reference timeRange object of another event
      * @return
      */

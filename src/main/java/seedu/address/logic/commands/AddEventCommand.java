@@ -56,7 +56,7 @@ public class AddEventCommand extends Command {
             logger.info("AddEvent: linking existing event " + toAdd + " to " + personToEdit.getName());
             throw new CommandException(String.format(MESSAGE_DUPLICATE_EVENT, toAdd));
         }
-        
+
         // Case 2: Existing global event
         Event eventToLink;
         if (model.hasEvent(toAdd)) {
