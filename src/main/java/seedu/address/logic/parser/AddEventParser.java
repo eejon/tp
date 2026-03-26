@@ -82,11 +82,18 @@ public class AddEventParser implements Parser<AddEventCommand> {
     }
 
     private static Event createEvent(ArgumentMultimap argMultimap) throws ParseException {
-        Title title = new Title(argMultimap.getValue(PREFIX_TITLE).get().trim());
-        Optional<Description> description = argMultimap.getValue(PREFIX_DESC)
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .map(Description::new);
+        String titleStr = argMultimap.getValue(PREFIX_TITLE).get().trim();
+        if (!Title.isValidTitle(titleStr)) {
+            throw new ParseException(Title.MESSAGE_CONSTRAINTS);
+        }
+        Title title = new Title(titleStr);
+        String descStr = argMultimap.getValue(PREFIX_DESC).map(String::trim).orElse(null);
+        if (descStr != null && !descStr.isEmpty() && !Description.isValidDescription(descStr)) {
+            throw new ParseException(Description.MESSAGE_CONSTRAINTS);
+        }
+        Optional<Description> description = (descStr != null && !descStr.isEmpty())
+                ? Optional.of(new Description(descStr))
+                : Optional.empty();
         String startDateTime = argMultimap.getValue(PREFIX_START).get().trim();
         String endDateTime = argMultimap.getValue(PREFIX_END).get().trim();
         if (!TimeRange.isValidDateTimeFormat(startDateTime) || !TimeRange.isValidDateTimeFormat(endDateTime)) {

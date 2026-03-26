@@ -83,7 +83,11 @@ public class DeleteEventParser implements Parser<DeleteEventCommand> {
     }
 
     private static Event createEvent(ArgumentMultimap argMultimap) throws ParseException {
-        Title title = new Title(argMultimap.getValue(PREFIX_TITLE).get().trim());
+        String titleStr = argMultimap.getValue(PREFIX_TITLE).get().trim();
+        if (!Title.isValidTitle(titleStr)) {
+            throw new ParseException(Title.MESSAGE_CONSTRAINTS);
+        }
+        Title title = new Title(titleStr);
         Optional<Description> description = Optional.empty();
         String startTime = argMultimap.getValue(PREFIX_START).get().trim();
         String endTime = argMultimap.getValue(PREFIX_END).get().trim();
