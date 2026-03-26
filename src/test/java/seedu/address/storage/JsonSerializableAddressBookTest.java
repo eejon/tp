@@ -46,6 +46,15 @@ public class JsonSerializableAddressBookTest {
     }
 
     @Test
+    public void toModelType_missingPersonsAndEventsFields_success() throws Exception {
+        JsonSerializableAddressBook dataFromJson = JsonUtil.fromJsonString("{}", JsonSerializableAddressBook.class);
+
+        AddressBook addressBook = dataFromJson.toModelType();
+        assertEquals(0, addressBook.getPersonList().size());
+        assertEquals(0, addressBook.getEventList().size());
+    }
+
+    @Test
     public void toModelType_duplicateEvents_throwsIllegalValueException() throws Exception {
         String json = """
                 {
