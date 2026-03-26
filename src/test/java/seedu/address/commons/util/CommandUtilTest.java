@@ -18,7 +18,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonInformation;
 import seedu.address.testutil.PersonBuilder;
 
-public class EventUtilTest {
+public class CommandUtilTest {
 
     @Test
     public void targetPerson_singleMatch_returnsPerson() throws Exception {
