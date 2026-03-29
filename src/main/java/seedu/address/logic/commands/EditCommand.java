@@ -176,7 +176,7 @@ public class EditCommand extends Command {
     /**
      * Merges and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
-     * 
+     *
      * @param personToEdit The original person whose details are to be edited. Must not be null.
      * @param editPersonDescriptor The descriptor containing the details to edit the person with. Must not be null.
      * @return A new {@code Person} object with the combined edited details.
@@ -210,8 +210,8 @@ public class EditCommand extends Command {
     }
 
     /**
-     * Returns the updated tags based on add-only semantics for edit:
-     * empty tag set clears all tags, otherwise provided tags are added to existing tags.
+     * Returns updated tags using toggle semantics for edit:
+     * empty tag set clears all tags, otherwise each provided tag toggles membership.
      */
     private static Set<Tag> createEditedTags(Set<Tag> existingTags, Optional<Set<Tag>> tagsToEdit) {
         if (tagsToEdit.isEmpty()) {
@@ -223,17 +223,18 @@ public class EditCommand extends Command {
             return Collections.emptySet();
         }
 
-        Set<Tag> mergedTags = new HashSet<>(existingTags);
+        Set<Tag> toggledTags = new HashSet<>(existingTags);
         for (Tag newTag : newTags) {
-            if (!containsTagIgnoreCase(mergedTags, newTag)) {
-                mergedTags.add(newTag);
+            Optional<Tag> existingTagToRemove = toggledTags.stream()
+                    .filter(existingTag -> existingTag.tagName.equalsIgnoreCase(newTag.tagName))
+                    .findFirst();
+            if (existingTagToRemove.isPresent()) {
+                toggledTags.remove(existingTagToRemove.get());
+            } else {
+                toggledTags.add(newTag);
             }
         }
-        return mergedTags;
-    }
-
-    private static boolean containsTagIgnoreCase(Set<Tag> tags, Tag targetTag) {
-        return tags.stream().anyMatch(existingTag -> existingTag.tagName.equalsIgnoreCase(targetTag.tagName));
+        return toggledTags;
     }
 
     @Override

@@ -83,7 +83,8 @@ public class EditCommandParser implements Parser<EditCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
 
-        // Parse the updated information from the update segment, ensuring that at least one field is provided for editing
+        // Parse the updated information from the update segment,
+        // ensuring that at least one field is provided for editing
         ArgumentMultimap updateMultimap =
             ArgumentTokenizer.tokenize(" " + updateSegment, PREFIX_NAME, PREFIX_PHONE,
             PREFIX_EMAIL, PREFIX_ADDRESS,
