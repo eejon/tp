@@ -226,12 +226,22 @@ public class AddCommandTest {
         }
 
         @Override
+        public void showAllPersonsPinnedFirst() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void showPersons(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void showMatchingPersons(java.util.Set<Person> persons) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void pinPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
 
