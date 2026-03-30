@@ -104,7 +104,7 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]... -- [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG][pfp/PHOTO_PATH]...`
+Format: `edit NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG] -- [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG] [pfp/PHOTO_PATH]`
 
 **Tip:** If there are multiple contacts with the same `NAME`, utilize the other optional parameters to narrow down the updating of the correct contact. This can be done by supplying
 any of the following information just after `edit NAME`: Phone number, Email, Address or Tag.
