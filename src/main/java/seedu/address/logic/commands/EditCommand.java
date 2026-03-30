@@ -44,7 +44,7 @@ public class EditCommand extends Command {
             + "by name and optional identifying fields. "
             + "Existing values will be overwritten by the input values.\n"
             + "Format: "
-            + COMMAND_WORD + " NAME "
+            + COMMAND_WORD + " " + PREFIX_NAME + "NAME "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
@@ -56,7 +56,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_PHOTO + "PHOTO]\n"
-            + "Example: " + COMMAND_WORD + " John Doe "
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "91234567 -- "
             + PREFIX_EMAIL + "john.new@example.com "
             + PREFIX_TAG + "friends";
@@ -97,12 +97,12 @@ public class EditCommand extends Command {
                     .toList();
         }
 
-        //Case 1: No match found
+        // Case 1: No match found
         if (listOfPersonsToEdit.isEmpty()) {
             throw new CommandException(Messages.MESSAGE_NO_MATCH);
         }
 
-        //Case 2: Multiple matches found - show matching persons and ask user to refine their input
+        // Case 2: Multiple matches found - show matching persons and ask user to refine their input
         if (listOfPersonsToEdit.size() > 1) {
             Set<Person> matchingPersons = Set.copyOf(listOfPersonsToEdit);
             Predicate<Person> showMatchingPersons = matchingPersons::contains;
@@ -110,7 +110,7 @@ public class EditCommand extends Command {
             throw new CommandException(Messages.MESSAGE_MULTIPLE_MATCH);
         }
 
-        //Case 3: Exactly one match found - proceed with edit
+        // Case 3: Exactly one match found - proceed with edit
         Person personToEdit = listOfPersonsToEdit.get(0);
         Person previewPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 

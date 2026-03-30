@@ -60,13 +60,18 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         ArgumentMultimap targetMultimap =
-            ArgumentTokenizer.tokenize(targetSegment, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
-        targetMultimap.verifyNoDuplicatePrefixesFor(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+            ArgumentTokenizer.tokenize(" " + targetSegment, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
+                PREFIX_ADDRESS, PREFIX_TAG);
+        targetMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+
+        if (!targetMultimap.getPreamble().trim().isEmpty() || targetMultimap.getValue(PREFIX_NAME).isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
 
         PersonInformation targetInfo;
         // Parse the target person's information from the target segment, ensuring that the name is present and valid
         try {
-            Name targetName = ParserUtil.parseName(targetMultimap.getPreamble().trim());
+            Name targetName = ParserUtil.parseName(targetMultimap.getValue(PREFIX_NAME).get());
             Phone targetPhone = targetMultimap.getValue(PREFIX_PHONE).isPresent()
                 ? ParserUtil.parsePhone(targetMultimap.getValue(PREFIX_PHONE).get())
                 : null;
