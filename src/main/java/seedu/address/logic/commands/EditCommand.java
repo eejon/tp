@@ -11,13 +11,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import seedu.address.commons.util.CollectionUtil;
+import seedu.address.commons.util.CommandUtil;
 import seedu.address.commons.util.PhotoStorageUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -87,23 +86,7 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> listOfPersonsToEdit = model.findPersons(this.targetInfo);
-
-        // Case 1: No match found
-        if (listOfPersonsToEdit.isEmpty()) {
-            throw new CommandException(Messages.MESSAGE_NO_MATCH);
-        }
-
-        // Case 2: Multiple matches found - show matching persons and ask user to refine their input
-        if (listOfPersonsToEdit.size() > 1) {
-            Set<Person> matchingPersons = Set.copyOf(listOfPersonsToEdit);
-            Predicate<Person> showMatchingPersons = matchingPersons::contains;
-            model.updateFilteredPersonList(showMatchingPersons);
-            throw new CommandException(Messages.MESSAGE_MULTIPLE_MATCH);
-        }
-
-        // Case 3: Exactly one match found - proceed with edit
-        Person personToEdit = listOfPersonsToEdit.get(0);
+        Person personToEdit = CommandUtil.targetPerson(model, targetInfo);
         Person previewPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
         //If edit is not the same, but phone number already exsist to another person
