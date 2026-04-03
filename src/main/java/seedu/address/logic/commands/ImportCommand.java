@@ -17,8 +17,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.CsvUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
@@ -36,7 +38,7 @@ import seedu.address.model.person.Photo;
 import seedu.address.model.tag.Tag;
 
 /**
- * Imports a list of contacts from a CSV formatted file.
+ * Imports a list of contacts from a CSV-formatted file.
  */
 public class ImportCommand extends Command {
 
@@ -60,6 +62,8 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_EMPTY_FILE = "The file %1$s is empty.";
     public static final String MESSAGE_SUCCESS_ROWS_ADDED_SKIPPED = "Successfully imported list from %1$s with "
             + "%2$d row(s) added, %3$d row(s) skipped.";
+
+    private static final Logger logger = LogsCenter.getLogger(ImportCommand.class);
 
     private final String importType;
     private final String filename;
@@ -330,7 +334,10 @@ public class ImportCommand extends Command {
                     events.add(existingEvent);
                 }
             } catch (IllegalArgumentException e) {
-                // Skip malformed event entries and continue with the rest of the row
+                // Skip malformed event entries, log the event and continue with the rest of the row
+                logger.info(
+                        String.format("ImportCommand: Skipping event entry due to error: %s", e.getMessage())
+                );
             }
         }
 
