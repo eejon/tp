@@ -100,6 +100,47 @@ public class JsonSerializableAddressBookTest {
     }
 
     @Test
+    public void toModelType_duplicatePinnedPersons_throwsIllegalValueException() throws Exception {
+        String json = """
+                {
+                  "persons": [
+                    {
+                      "name": "Benson Meier",
+                      "phone": "98765432",
+                      "email": "johnd@example.com",
+                      "address": "311, Clementi Ave 2, #02-25",
+                      "tags": ["owesMoney", "friends"],
+                      "events": []
+                    }
+                  ],
+                  "events": [],
+                  "pinned": [
+                    {
+                      "name": "Benson Meier",
+                      "phone": "98765432",
+                      "email": "johnd@example.com",
+                      "address": "311, Clementi Ave 2, #02-25",
+                      "tags": ["owesMoney", "friends"],
+                      "events": []
+                    },
+                    {
+                      "name": "Benson Meier",
+                      "phone": "98765432",
+                      "email": "johnd@example.com",
+                      "address": "311, Clementi Ave 2, #02-25",
+                      "tags": ["owesMoney", "friends"],
+                      "events": []
+                    }
+                  ]
+                }
+                """;
+        JsonSerializableAddressBook dataFromJson = JsonUtil.fromJsonString(json, JsonSerializableAddressBook.class);
+
+        assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_PINNED_PERSON,
+                dataFromJson::toModelType);
+    }
+
+    @Test
     public void toModelType_pinnedPersonNotInPersons_throwsIllegalValueException() throws Exception {
         String json = """
                 {
