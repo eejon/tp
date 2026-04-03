@@ -83,7 +83,7 @@ public class AddCommand extends Command {
         }
 
         model.addPerson(finalPersonToAdd);
-        model.showAllPersonsPinnedFirst();
+        model.showAllPersons();
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(finalPersonToAdd)));
     }
 

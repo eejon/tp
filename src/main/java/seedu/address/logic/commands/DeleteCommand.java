@@ -80,7 +80,7 @@ public class DeleteCommand extends Command {
             throw new CommandException(Messages.MESSAGE_DELETE_PHOTO_FAIL + e.getMessage());
         }
         model.deletePerson(personToDelete);
-        model.showAllPersonsPinnedFirst();
+        model.showAllPersons();
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)));
     }
 
