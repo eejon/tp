@@ -11,13 +11,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
+import seedu.address.commons.util.CommandUtil;
 import seedu.address.commons.util.PhotoStorageUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -28,6 +27,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonInformation;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
 import seedu.address.model.tag.Tag;
@@ -39,51 +39,58 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the index number used in the displayed person list. "
+            + "by name and optional identifying fields. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Format: "
+            + COMMAND_WORD + " " + PREFIX_NAME + "NAME "
+            + "[" + PREFIX_PHONE + "PHONE] "
+            + "[" + PREFIX_EMAIL + "EMAIL] "
+            + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_TAG + "TAG]... "
+            + "-- "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_PHOTO + "PHOTO]\n"
-            + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com";
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "John Doe "
+            + PREFIX_PHONE + "91234567 -- "
+            + PREFIX_EMAIL + "john.new@example.com "
+            + PREFIX_TAG + "friends";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_NO_CHANGES_DONE = "No changes done.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "A contact with the same phone number already exists.";
 
-    private final Index index;
+    private final PersonInformation targetInfo;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index of the person in the filtered person list to edit
-     * @param editPersonDescriptor details to edit the person with
+     * Creates an EditCommand that encapsulates the details required to edit a person's information.
+     *
+     * @param targetInfo The {@code PersonInformation} object representing the person to edit.
+     *                   Must not be null and must specify the person's identifying details.
+     * @param editPersonDescriptor The {@code EditPersonDescriptor} object containing the details
+     *                             to update the person's information with. Must not be null.
      */
-    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
-        requireNonNull(index);
+    public EditCommand(PersonInformation targetInfo, EditPersonDescriptor editPersonDescriptor) {
+        requireNonNull(targetInfo);
         requireNonNull(editPersonDescriptor);
 
-        this.index = index;
+        this.targetInfo = targetInfo;
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
+        Person personToEdit = CommandUtil.targetPerson(model, targetInfo);
+        Person previewPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-        }
-
-        Person personToEdit = lastShownList.get(index.getZeroBased());
-        Person dummyPerson = createEditedPerson(personToEdit, editPersonDescriptor);
-
-        if (!personToEdit.isSamePerson(dummyPerson) && model.hasPerson(dummyPerson)) {
+        //If edit is not the same, but phone number already exsist to another person
+        if (!personToEdit.isSamePerson(previewPerson) && model.hasPerson(previewPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
@@ -109,25 +116,40 @@ public class EditCommand extends Command {
         }
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
+
+        //If edit is the same as before, do not proceed with edit and return appropriate message
+        if (personToEdit.equals(editedPerson)) {
+            return new CommandResult(MESSAGE_NO_CHANGES_DONE);
+        }
+
         model.setPerson(personToEdit, editedPerson);
-        model.showAllPersons();
+        model.updateFilteredPersonList(p -> p.equals(editedPerson));
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 
     /**
-     * Creates and returns a {@code Person} with the details of {@code personToEdit}
+     * Merges and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
+     *
+     * @param personToEdit The original person whose details are to be edited. Must not be null.
+     * @param editPersonDescriptor The descriptor containing the details to edit the person with. Must not be null.
+     * @return A new {@code Person} object with the combined edited details.
      */
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
         assert personToEdit != null;
+        assert editPersonDescriptor != null;
 
-        Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
+        Name updatedName = editPersonDescriptor.getName().isPresent()
+            ? editPersonDescriptor.getName().get()
+            : personToEdit.getName();
+        Phone updatedPhone = editPersonDescriptor.getPhone().isPresent()
+            ? editPersonDescriptor.getPhone().get()
+            : personToEdit.getPhone();
         Optional<Email> updatedEmail = editPersonDescriptor.getEmail().isPresent()
-            ? editPersonDescriptor.getEmail() : personToEdit.getEmail();
+                ? editPersonDescriptor.getEmail() : personToEdit.getEmail();
         Optional<Address> updatedAddress = editPersonDescriptor.getAddress().isPresent()
-            ? editPersonDescriptor.getAddress() : personToEdit.getAddress();
-        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+                ? editPersonDescriptor.getAddress() : personToEdit.getAddress();
+        Set<Tag> updatedTags = createEditedTags(personToEdit.getTags(), editPersonDescriptor.getTags());
         Optional<Photo> updatedPhoto = editPersonDescriptor.getPhoto().isPresent()
                 ? editPersonDescriptor.getPhoto()
                 : personToEdit.getPhoto();
@@ -139,6 +161,34 @@ public class EditCommand extends Command {
         }
 
         return editedPerson;
+    }
+
+    /**
+     * Returns updated tags using toggle semantics for edit:
+     * empty tag set clears all tags, otherwise each provided tag toggles membership.
+     */
+    private static Set<Tag> createEditedTags(Set<Tag> existingTags, Optional<Set<Tag>> tagsToEdit) {
+        if (tagsToEdit.isEmpty()) {
+            return existingTags;
+        }
+
+        Set<Tag> newTags = tagsToEdit.get();
+        if (newTags.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        Set<Tag> toggledTags = new HashSet<>(existingTags);
+        for (Tag newTag : newTags) {
+            Optional<Tag> existingTagToRemove = toggledTags.stream()
+                    .filter(existingTag -> existingTag.tagName.equalsIgnoreCase(newTag.tagName))
+                    .findFirst();
+            if (existingTagToRemove.isPresent()) {
+                toggledTags.remove(existingTagToRemove.get());
+            } else {
+                toggledTags.add(newTag);
+            }
+        }
+        return toggledTags;
     }
 
     @Override
@@ -153,14 +203,14 @@ public class EditCommand extends Command {
         }
 
         EditCommand otherEditCommand = (EditCommand) other;
-        return index.equals(otherEditCommand.index)
+        return targetInfo.equals(otherEditCommand.targetInfo)
                 && editPersonDescriptor.equals(otherEditCommand.editPersonDescriptor);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("index", index)
+                .add("targetInfo", targetInfo)
                 .add("editPersonDescriptor", editPersonDescriptor)
                 .toString();
     }
